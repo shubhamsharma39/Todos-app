@@ -1,8 +1,9 @@
+/* src/styles.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20;
+    padding: 20px;
 }
 
 .app {
@@ -13,7 +14,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 
 h1 {
     text-align: center;
@@ -33,7 +33,7 @@ input[type="text"] {
     margin-right: 10px;
 }
 
-botton {
+button {
     padding: 10px 15px;
     border: none;
     background-color: #28a745;

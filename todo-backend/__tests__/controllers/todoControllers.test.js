@@ -1,13 +1,12 @@
 const todoController = require("../../controllers/todoController");
 
-jest.mock("../../models/todoModels.js");
+jest.mock("../../models/todoModel.js");
+
+const Todo = require("../../models/todoModel");
 
 const mockSave = jest.fn();
 const mockFind = jest.fn();
 
-const Todo = require("../../models/todoModels");
-
-// Correctly mock the Model methods
 Todo.find = mockFind;
 Todo.mockImplementation(() => ({
     save: mockSave,
@@ -17,14 +16,17 @@ describe("When Todo Controller is invoked", () => {
     let req, res;
 
     beforeEach(() => {
-        req = { 
+        req = {
             body: {},
-            params: {} 
+            params: {}
         };
         res = {
             json: jest.fn(() => res),
             status: jest.fn(() => res),
         };
+
+        mockSave.mockReset();
+        mockFind.mockReset();
     });
 
     describe("For getTodos function", () => {
@@ -44,7 +46,7 @@ describe("When Todo Controller is invoked", () => {
         });
 
         it("Should handle errors if something goes wrong", async () => {
-            const errorMessage = "something went wrong, please try later";
+            const errorMessage = "Something went wrong, please try later";
             mockFind.mockRejectedValue(new Error(errorMessage));
 
             await todoController.getTodos(req, res);
@@ -56,7 +58,7 @@ describe("When Todo Controller is invoked", () => {
     });
 
     describe("For addTodo function", () => {
-        it("should create a new Todo", async () => {
+        it("Should create a new Todo", async () => {
             const newTodo = { _id: 3, title: "New Todo", completed: false };
             req.body = { title: "New Todo", completed: false };
 
@@ -69,8 +71,8 @@ describe("When Todo Controller is invoked", () => {
             expect(res.json).toHaveBeenCalledWith(newTodo);
         });
 
-        it("should handle the errors", async () => {
-            const errorMessage = "something went wrong, please try later";
+        it("Should handle the errors", async () => {
+            const errorMessage = "Something went wrong, please try later";
             mockSave.mockRejectedValue(new Error(errorMessage));
 
             await todoController.addTodo(req, res);
