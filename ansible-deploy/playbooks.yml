@@ -1,0 +1,43 @@
+---
+- name: Deploy Todos App on EC2 with Docker
+  hosts: todos
+  become: true
+
+  tasks:
+
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: true
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create app directory
+      file:
+        path: /home/ubuntu/todos-app
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Copy app files to EC2
+      copy:
+        src: roles/todos/files/
+        dest: /home/ubuntu/todos-app/
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Change to app directory and start containers
+      shell: |
+        cd /home/ubuntu/todos-app
+        docker-compose up -d --build
+      args:
+        chdir: /home/ubuntu/todos-app
