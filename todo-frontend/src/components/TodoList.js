@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
-import BACKEND_URL from "../config/config"; // Make sure this exports your backend base URL
+import BACKEND_URL from "../config/config";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -13,30 +12,39 @@ const TodoList = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/get-todos`);
-      const data = await response.json();
-      setTodos(data); // Actually set the todos
-    } catch (error) {
-      console.error("Error fetching the data", error);
+      const res = await fetch(`${BACKEND_URL}/get-todos`);
+      const data = await res.json();
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data.todos)
+        ? data.todos
+        : [];
+      setTodos(list);
+    } catch (err) {
+      console.error("Error fetching todos:", err);
     }
   };
 
   const addTodo = async (title) => {
-    console.log("Adding todo", title);
     try {
-      const response = await fetch(`${BACKEND_URL}/add-todo`, {
+      const res = await fetch(`${BACKEND_URL}/add-todo`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title }),
       });
-
-      const newTodo = await response.json();
+      const newTodo = await res.json();
       setTodos((prev) => [...prev, newTodo]);
-      console.log("Response received", newTodo);
-    } catch (error) {
-      console.error("Error while creating the todo", error);
+    } catch (err) {
+      console.error("Error adding todo:", err);
+    }
+  };
+
+  const deleteTodo = async (_id) => {
+    try {
+      await fetch(`${BACKEND_URL}/delete-todo/${_id}`, { method: "DELETE" });
+      setTodos((prev) => prev.filter((t) => t._id !== _id));
+    } catch (err) {
+      console.error("Error deleting todo:", err);
     }
   };
 
@@ -45,9 +53,10 @@ const TodoList = () => {
       <h1>Todo List</h1>
       <AddTodo onAdd={addTodo} />
       <ul>
-        {todos.map((todo) => (
-          <TodoItem key={todo._id} todo={todo} />
-        ))}
+        {Array.isArray(todos) &&
+          todos.map((todo) => (
+            <TodoItem key={todo._id} todo={todo} onDelete={deleteTodo} />
+          ))}
       </ul>
     </div>
   );
