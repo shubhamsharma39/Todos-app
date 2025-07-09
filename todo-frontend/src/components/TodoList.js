@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
-import BACKEND_URL from "../config/config";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
