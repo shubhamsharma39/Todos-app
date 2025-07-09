@@ -29,7 +29,7 @@
 
     - name: Copy app files to EC2
       copy:
-        src: roles/todos/files/
+        src: "{{ playbook_dir }}/../"    
         dest: /home/ubuntu/todos-app/
         owner: ubuntu
         group: ubuntu
