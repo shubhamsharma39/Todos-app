@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { getTodos, addTodo } = require("../controllers/todoController");
+const {
+  getTodos,
+  addTodo,
+  deleteTodo, // ✅ Import deleteTodo controller
+} = require("../controllers/todoController");
 
-router.get("/get-todos", getTodos);     
+// ✅ Get all todos
+router.get("/get-todos", getTodos);
 
-router.post("/add-todo", addTodo);     
+// ✅ Add a new todo
+router.post("/add-todo", addTodo);
 
-// Todo: Implement the logic for handling deletion of todos
-// router.delete("/:id",)
+// ✅ Delete a todo by ID
+router.delete("/delete-todo/:id", deleteTodo);
 
 module.exports = router;

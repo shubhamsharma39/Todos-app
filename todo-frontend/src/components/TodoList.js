@@ -3,7 +3,6 @@ import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
 

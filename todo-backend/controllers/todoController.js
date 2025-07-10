@@ -30,3 +30,20 @@ exports.addTodo = async (req, res) => {
         res.status(500).json({ message: "Something went wrong, please try later" });
     }
 };
+
+exports.deleteTodo = async (req, res) => {
+    const { id } = req.params;
+    logger.info(`Request to delete todo with id: ${id}`);
+    try {
+        const deletedTodo = await Todo.findByIdAndDelete(id);
+        if (!deletedTodo) {
+            logger.warn(`Todo not found with id: ${id}`);
+            return res.status(404).json({ message: "Todo not found" });
+        }
+        logger.info(`Todo deleted successfully: ${JSON.stringify(deletedTodo)}`);
+        res.status(204).send(); // No Content
+    } catch (error) {
+        logger.error(`Error while deleting the todo: ${error.message}`);
+        res.status(500).json({ message: "Something went wrong, please try later" });
+    }
+};
