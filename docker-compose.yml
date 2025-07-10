@@ -1,25 +1,33 @@
-services:
-  todo-frontend:
-    build:
-      context: ./todo-frontend
-      args:
-        REACT_APP_BACKEND_URL: http://56.155.38.200:3002/api
-    ports:
-      - "80:80"
-    networks:
-      - todo-network
-    depends_on:
-      - todo-backend
+version: "3.9"
 
-  todo-backend:
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  backend:
     build: ./todo-backend
+    container_name: todo-backend
     ports:
       - "3002:3002"
-    env_file:
-      - ./todo-backend/.env
-    networks:
-      - todo-network
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/todos
 
-networks:
-  todo-network:
-    driver: bridge
+
+  frontend:
+    build: ./todo-frontend
+    container_name: todo-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:3002
+
+volumes:
+  mongo_data:
