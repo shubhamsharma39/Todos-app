@@ -8,15 +8,11 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    env:
-      FRONTEND_IMAGE: shubham0039sharma/todos-frontend
-      BACKEND_IMAGE: shubham0039sharma/todos-backend
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Log in to Docker Hub
+      - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -24,13 +20,13 @@ jobs:
 
       - name: Build Frontend Image
         run: |
-          docker build -t $FRONTEND_IMAGE:latest ./todo-frontend
+          docker build -t shubham0039sharma/todos-frontend:latest ./todo-frontend
 
       - name: Build Backend Image
         run: |
-          docker build -t $BACKEND_IMAGE:latest ./todo-backend
+          docker build -t shubham0039sharma/todos-backend:latest ./todo-backend
 
-      - name: Push Images to Docker Hub
+      - name: Push Images to DockerHub
         run: |
-          docker push $FRONTEND_IMAGE:latest
-          docker push $BACKEND_IMAGE:latest
+          docker push shubham0039sharma/todos-frontend:latest
+          docker push shubham0039sharma/todos-backend:latest
