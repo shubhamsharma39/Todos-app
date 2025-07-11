@@ -8,6 +8,10 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    env:
+      FRONTEND_IMAGE: shubham0039sharma/todos-frontend
+      BACKEND_IMAGE: shubham0039sharma/todos-backend
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -22,15 +26,15 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           logout: true
 
-      - name: Build Frontend Image
+      - name: Build React Frontend
         run: |
-          docker buildx build --load -t ${{ secrets.DOCKER_USERNAME }}/todos-frontend:latest ./todo-frontend
+          docker buildx build --load -t $FRONTEND_IMAGE:latest ./todo-frontend
 
-      - name: Build Backend Image
+      - name: Build Node.js Backend
         run: |
-          docker buildx build --load -t ${{ secrets.DOCKER_USERNAME }}/todos-backend:latest ./todo-backend
+          docker buildx build --load -t $BACKEND_IMAGE:latest ./todo-backend
 
       - name: Push Images to DockerHub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/todos-frontend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/todos-backend:latest
+          docker push $FRONTEND_IMAGE:latest
+          docker push $BACKEND_IMAGE:latest
