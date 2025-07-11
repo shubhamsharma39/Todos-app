@@ -20,13 +20,13 @@ jobs:
 
       - name: Build Frontend Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todos-frontend:latest ./todo-frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/todos-frontend:latest ./todo-frontend
 
       - name: Build Backend Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todos-backend:latest ./todo-backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/todos-backend:latest ./todo-backend
 
       - name: Push Images to DockerHub
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/todos-frontend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/todos-backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/todos-frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/todos-backend:latest
