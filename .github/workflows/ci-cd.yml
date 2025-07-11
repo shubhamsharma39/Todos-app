@@ -12,6 +12,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Debug secrets (for testing)
+        run: echo "DockerHub user = ${{ secrets.DOCKERHUB_USERNAME }}"
+
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
