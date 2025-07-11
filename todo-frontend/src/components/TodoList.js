@@ -1,65 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import BACKEND_URL from "../config/config";
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
- const fetchTodos = async () => {
-  try {
+  const fetchTodos = async () => {
     const res = await fetch(`${BACKEND_URL}/get-todos`);
     const data = await res.json();
-    const list = Array.isArray(data)
-      ? data
-      : Array.isArray(data.todos)
-      ? data.todos
-      : [];
-    setTodos(list);
-  } catch (err) {
-    console.error("Error fetching todos:", err);
-  }
-};
+    setTodos(data);
+  };
 
-const addTodo = async (title) => {
-  try {
+  const addTodo = async (title) => {
     const res = await fetch(`${BACKEND_URL}/add-todo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
     });
-    const newTodo = await res.json();
-    setTodos((prev) => [...prev, newTodo]);
-  } catch (err) {
-    console.error("Error adding todo:", err);
-  }
-};
+    const data = await res.json();
+    setTodos([...todos, data]);
+  };
 
-const deleteTodo = async (_id) => {
-  try {
-    await fetch(`${BACKEND_URL}/delete-todo/${_id}`, {
+  const deleteTodo = async (id) => {
+    await fetch(`${BACKEND_URL}/delete-todo/${id}`, {
       method: "DELETE",
     });
-    setTodos((prev) => prev.filter((t) => t._id !== _id));
-  } catch (err) {
-    console.error("Error deleting todo:", err);
-  }
-};
+    setTodos(todos.filter((todo) => todo._id !== id));
+  };
 
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   return (
     <div>
-      <h1>Todo List</h1>
+      <h1>My Todo List</h1>
       <AddTodo onAdd={addTodo} />
       <ul>
-        {Array.isArray(todos) &&
-          todos.map((todo) => (
-            <TodoItem key={todo._id} todo={todo} onDelete={deleteTodo} />
-          ))}
+        {todos.map((todo) => (
+          <TodoItem key={todo._id} todo={todo} onDelete={deleteTodo} />
+        ))}
       </ul>
     </div>
   );

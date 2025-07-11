@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 const TodoItem = ({ todo, onDelete }) => {
   return (
@@ -6,7 +6,7 @@ const TodoItem = ({ todo, onDelete }) => {
       {todo.title}
       <button onClick={() => onDelete(todo._id)}>Delete</button>
     </li>
-  )
-}
+  );
+};
 
 export default TodoItem;

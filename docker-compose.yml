@@ -1,33 +1,37 @@
-version: "3.9"
+name: CI/CD Pipeline
 
-services:
-  mongo:
-    image: mongo
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-  backend:
-    build: ./todo-backend
-    container_name: todo-backend
-    ports:
-      - "3002:3002"
-    depends_on:
-      - mongo
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/todos
+on:
+  push:
+    branches: [ main ]
 
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
 
-  frontend:
-    build: ./todo-frontend
-    container_name: todo-frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-    environment:
-      - REACT_APP_BACKEND_URL=http://localhost:3002
+    env:
+      DOCKERHUB_USERNAME: shubham0039sharma
+      FRONTEND_IMAGE: shubham0039sharma/todos-frontend
+      BACKEND_IMAGE: shubham0039sharma/todos-backend
 
-volumes:
-  mongo_data:
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build React Frontend with Multi-stage Dockerfile
+        run: |
+          docker build -t $FRONTEND_IMAGE:latest ./todo-frontend
+
+      - name: Build Node.js Backend
+        run: |
+          docker build -t $BACKEND_IMAGE:latest ./todo-backend
+
+      - name: Push Images to DockerHub
+        run: |
+          docker push $FRONTEND_IMAGE:latest
+          docker push $BACKEND_IMAGE:latest
