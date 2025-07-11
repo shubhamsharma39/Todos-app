@@ -12,24 +12,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Debug secrets (for testing)
-        run: echo "DockerHub user = ${{ secrets.DOCKERHUB_USERNAME }}"
-
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Frontend Image
         run: |
-          docker build -t shubham0039sharma/todos-frontend:latest ./todo-frontend
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todos-frontend:latest ./todo-frontend
 
       - name: Build Backend Image
         run: |
-          docker build -t shubham0039sharma/todos-backend:latest ./todo-backend
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todos-backend:latest ./todo-backend
 
       - name: Push Images to DockerHub
         run: |
-          docker push shubham0039sharma/todos-frontend:latest
-          docker push shubham0039sharma/todos-backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/todos-frontend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/todos-backend:latest
