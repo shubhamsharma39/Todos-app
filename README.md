@@ -1,70 +1,151 @@
-# Getting Started with Create React App
+# Todos App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack Todo Application with backend APIs using **Node.js, Express, MongoDB**, and frontend built with **React**. The app is containerized using **Docker** and deployed via **GitHub Actions CI/CD pipeline**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+**Frontend**: React, CSS  
+**Backend**: Node.js, Express.js, MongoDB  
+**Testing**: Jest, Supertest  
+**DevOps**: Docker, GitHub Actions  
+**CI/CD**: GitHub Actions for building and pushing Docker images
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Folder Structure
 
-### `npm test`
+```
+Todos-app-main/
+├── todo-frontend/        # React frontend
+│   ├── public/
+│   ├── src/
+│   ├── Dockerfile
+│   └── ...
+├── todo-backend/         # Express backend
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── __tests__/        # Unit & Integration tests
+│   ├── Dockerfile
+│   └── server.js
+├── docker-compose.yml    # Docker orchestration
+└── .github/workflows/    # CI/CD pipeline
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+##  Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###  Run with Docker
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# From the root directory
+docker-compose up --build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+App will be available at:
 
-### `npm run eject`
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:3002/get-todos`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+> Make sure Docker is installed and running.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+###  Run Locally (Without Docker)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Backend
 
-## Learn More
+```bash
+cd todo-backend
+npm install
+npm run dev
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd todo-frontend
+npm install
+npm start
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+##  Testing
 
-### Analyzing the Bundle Size
+```bash
+# From todo-backend directory
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Includes both unit and integration tests using **Jest** and **Supertest**.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+##  CI/CD Pipeline
 
-### Advanced Configuration
+CI/CD is configured using GitHub Actions:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- On every push to `main`:
+  - Lint & test the backend
+  - Build Docker images
+  - Push to Docker Hub
 
-### Deployment
+##  Docker Hub Credentials Setup
+    To push Docker images from GitHub Actions to Docker Hub:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    Go to your GitHub repository.
 
-### `npm run build` fails to minify
+    Navigate to Settings > Secrets and variables > Actions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    Click "New repository secret".
+
+    Add the following secrets:
+
+    DOCKER_USERNAME – your Docker Hub username
+
+    DOCKER_ACCESS_TOKEN – your Docker Hub access token (generate from Docker Hub under Account Settings > Security > New Access Token)
+
+    These secrets are securely used in the GitHub Actions workflow to authenticate with Docker Hub and push Docker images.
+
+    Workflow file: `.github/workflows/ci-cd.yml`
+
+---
+
+## Screenshots
+
+### 1. Add Todo
+![Add Todo](./assets/add-todo.png)
+
+### 2. CI/CD Pipeline
+![CI/CD](./assets/ci-cd.png)
+
+### 3. Docker Build
+![Docker Build](./assets/docker-build.png)
+
+### 4. Docker Container
+![Docker Container](./assets/docker-container.png)
+
+### 5. Docker Image
+![Docker Image](./assets/docker-image.png)
+
+### 6. Docker Volumes
+![Docker Volumes](./assets/docker-volumes.png)
+
+### 7. MongoDB
+![Mongo](./assets/mongo.png)
+
+### 8. Monitoring
+![Monitoring](./assets/monitoring.png)
+
+ 
+
+
+
+
+
+
