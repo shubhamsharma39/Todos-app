@@ -1,10 +1,11 @@
-# Todos App
+
+# 📝 Todos App
 
 A full-stack Todo Application with backend APIs using **Node.js, Express, MongoDB**, and frontend built with **React**. The app is containerized using **Docker** and deployed via **GitHub Actions CI/CD pipeline**.
 
 ---
 
-## Tech Stack
+## 🔧 Tech Stack
 
 **Frontend**: React, CSS  
 **Backend**: Node.js, Express.js, MongoDB  
@@ -14,7 +15,7 @@ A full-stack Todo Application with backend APIs using **Node.js, Express, MongoD
 
 ---
 
-## Folder Structure
+## 📁 Folder Structure
 
 ```
 Todos-app-main/
@@ -37,12 +38,11 @@ Todos-app-main/
 
 ---
 
-##  Getting Started
+## 🚀 Getting Started
 
-###  Run with Docker
+### 🐳 Run with Docker
 
 ```bash
-# From the root directory
 docker-compose up --build
 ```
 
@@ -55,7 +55,7 @@ App will be available at:
 
 ---
 
-###  Run Locally (Without Docker)
+### 💻 Run Locally (Without Docker)
 
 #### Backend
 
@@ -75,7 +75,7 @@ npm start
 
 ---
 
-##  Testing
+## 🧪 Testing
 
 ```bash
 # From todo-backend directory
@@ -86,7 +86,7 @@ Includes both unit and integration tests using **Jest** and **Supertest**.
 
 ---
 
-##  CI/CD Pipeline
+## ⚙️ CI/CD Pipeline
 
 CI/CD is configured using GitHub Actions:
 
@@ -95,57 +95,49 @@ CI/CD is configured using GitHub Actions:
   - Build Docker images
   - Push to Docker Hub
 
-##  Docker Hub Credentials Setup
-    To push Docker images from GitHub Actions to Docker Hub:
+---
 
-    Go to your GitHub repository.
+## 🔐 Docker Hub Credentials Setup
 
-    Navigate to Settings > Secrets and variables > Actions.
+To push Docker images from GitHub Actions to Docker Hub:
 
-    Click "New repository secret".
+1. Go to your GitHub repository.
+2. Navigate to **Settings > Secrets and variables > Actions**.
+3. Click **"New repository secret"**.
+4. Add the following secrets:
+   - `DOCKER_USERNAME` – your Docker Hub username
+   - `DOCKER_ACCESS_TOKEN` – your Docker Hub access token (generate it from Docker Hub under *Account Settings > Security > New Access Token*)
 
-    Add the following secrets:
+These secrets are securely used in the GitHub Actions workflow to authenticate with Docker Hub and push Docker images.
 
-    DOCKER_USERNAME – your Docker Hub username
-
-    DOCKER_ACCESS_TOKEN – your Docker Hub access token (generate from Docker Hub under Account Settings > Security > New Access Token)
-
-    These secrets are securely used in the GitHub Actions workflow to authenticate with Docker Hub and push Docker images.
-
-    Workflow file: `.github/workflows/ci-cd.yml`
+> Workflow file: `.github/workflows/ci-cd.yml`
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-### 1. Add Todo
+### 1. Add Todo  
 ![Add Todo](./assets/add-todo.png)
 
-### 2. CI/CD Pipeline
+### 2. CI/CD Pipeline  
 ![CI/CD](./assets/ci-cd.png)
 
-### 3. Docker Build
+### 3. Docker Build  
 ![Docker Build](./assets/docker-build.png)
 
-### 4. Docker Container
+### 4. Docker Container  
 ![Docker Container](./assets/docker-container.png)
 
-### 5. Docker Image
+### 5. Docker Image  
 ![Docker Image](./assets/docker-image.png)
 
-### 6. Docker Volumes
+### 6. Docker Volumes  
 ![Docker Volumes](./assets/docker-volumes.png)
 
-### 7. MongoDB
+### 7. MongoDB  
 ![Mongo](./assets/mongo.png)
 
-### 8. Monitoring
+### 8. Monitoring  
 ![Monitoring](./assets/monitoring.png)
-
- 
-
-
-
-
 
 
