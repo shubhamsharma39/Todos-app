@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import BACKEND_URL from "../config/config";
 import AddTodo from "./AddTodo";
 import TodoItem from "./TodoItem";
 
@@ -7,26 +6,38 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
 
   const fetchTodos = async () => {
-    const res = await fetch(`${BACKEND_URL}/get-todos`);
-    const data = await res.json();
-    setTodos(data);
+    try {
+      const res = await fetch("/api/get-todos");
+      const data = await res.json();
+      setTodos(data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
   };
 
   const addTodo = async (title) => {
-    const res = await fetch(`${BACKEND_URL}/add-todo`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title }),
-    });
-    const data = await res.json();
-    setTodos([...todos, data]);
+    try {
+      const res = await fetch("/api/add-todo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+      });
+      const data = await res.json();
+      setTodos([...todos, data]);
+    } catch (err) {
+      console.error("Add error:", err);
+    }
   };
 
   const deleteTodo = async (id) => {
-    await fetch(`${BACKEND_URL}/delete-todo/${id}`, {
-      method: "DELETE",
-    });
-    setTodos(todos.filter((todo) => todo._id !== id));
+    try {
+      await fetch(`/api/delete-todo/${id}`, {
+        method: "DELETE",
+      });
+      setTodos(todos.filter((todo) => todo._id !== id));
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
   };
 
   useEffect(() => {
@@ -47,3 +58,4 @@ const TodoList = () => {
 };
 
 export default TodoList;
+

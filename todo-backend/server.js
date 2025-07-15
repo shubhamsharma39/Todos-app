@@ -11,7 +11,7 @@ app.use(express.json());
 app.use("/", todoRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB connected!"))
   .catch((err) =>
     console.error("MongoDB connection failed:", err.message)
@@ -21,3 +21,4 @@ const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
