@@ -23,7 +23,7 @@ pipeline {
         stage('Build Frontend Docker Image') {
             steps {
                 dir('todo-frontend') {
-                    sh 'docker build --build-arg REACT_APP_BACKEND_URL=http://15.207.121.39:3002 -t $DOCKERHUB_USER/todos-frontend:latest .'
+                    sh 'docker build --build-arg REACT_APP_BACKEND_URL=http://65.2.145.38:3002 -t $DOCKERHUB_USER/todos-frontend:latest .'
                 }
             }
         }
